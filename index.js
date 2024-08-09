@@ -1,17 +1,19 @@
 
-//IMPORTANDO DEPENDÊNCIAS:
+//IMPORTING DEPENDENCIES
 const express = require('express');
 const app = express();;
 const bodyParser = require('body-parser');
 
 
-//BODY-PARSER:
+
+//BODY-PARSER
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 
-//BANCO DE DADOS FALSE:
-var BD = {
+
+//FALSE DATA BASE WITH JSON
+var DB = {
     games:[
         {
             id: 23,
@@ -36,8 +38,38 @@ var BD = {
 
 
 
+//FIRST ROUTE OR 'END-POINT'
+app.get('/games', (req, res) =>{
+    res.status(200);
+    res.json(DB.games);
+})
 
-//ABRINDO SERVER:
+
+
+//ROUTE/END-POINT FOR GET 'ID' OF THE GAME
+app.get('/game/:id', (req, res) =>{
+
+    if(isNaN(req.params.id)){ //inNaN para verificar se é um número
+        res.sendStatus(400);
+    }else{
+        var id = parseInt(req.params.id); //Id sendo um texto, uso parseInt pra converter
+
+        var game = DB.games.find((g) => {
+            return g.id == id
+        })
+
+        if(game != undefined){
+            res.status(200);
+            res.json(game);
+        }else{
+            res.sendStatus(404);
+        }
+    }
+})
+
+
+
+//OPENING SERVER
 app.listen(4545, () =>{
     console.log('Server created');
 })
