@@ -69,6 +69,40 @@ app.get('/game/:id', (req, res) =>{
 
 
 
+//CADASTRANDO DADOS NA API
+app.post('/game', (req, res) =>{
+    var { title, year, price } = req.body; // Usando destructuring
+
+    // Validação do título
+    if (typeof title !== 'string' || title.trim() === '') { 
+        //.trim() para não deixar espaço no começo e final de string, tipo: ' aaa '
+        //typeof para comparar o tipo da variavel
+        return res.status(400).send({ error: "Invalid title" });
+    }
+
+    // Validação do ano
+    if (typeof year !== 'number' || isNaN(year)) {
+        return res.status(400).send({ error: "Invalid year" });
+    }
+
+    // Validação do preço
+    if (typeof price !== 'number' || isNaN(price)) {
+        return res.status(400).send({ error: "Invalid price" });
+    }
+
+    // Se todas as validações passarem, continue com a lógica de cadastro
+    DB.games.push({
+        id: 2424,
+        title,
+        year,
+        price
+    });
+
+    res.status(201).send({ message: "Game successfully created" });
+})
+
+
+
 //OPENING SERVER
 app.listen(4545, () =>{
     console.log('Server created');
