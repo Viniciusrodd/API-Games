@@ -103,6 +103,33 @@ app.post('/game', (req, res) =>{
 
 
 
+//DELETE GAMES END-POINT
+//By 'delete HTTP route'
+app.delete('/game/:id', (req, res) =>{
+    if(isNaN(req.params.id)){ //inNaN para verificar se é um número
+        return res.status(404).send('You need to put a Number in URL');
+    }else{
+        var idVar = parseInt(req.params.id);
+        var index = DB.games.findIndex((g) =>{
+            return g.id === idVar;
+        })
+
+        if(index === -1){ //Verifica se o ID existe
+            return res.status(404).send('This game ID does not exist');            
+        }
+        
+        if(idVar <= 0){
+            return res.status(404).send('You need to put a number bigger than zero');
+        }else{
+            DB.games.splice(index, 1);
+            return res.status(200).send(`The game with ID: ${idVar} has been deleted`)
+        }
+
+    }  
+})
+
+
+
 //OPENING SERVER
 app.listen(4545, () =>{
     console.log('Server created');
