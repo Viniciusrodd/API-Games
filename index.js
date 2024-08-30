@@ -69,9 +69,9 @@ app.get('/game/:id', (req, res) =>{
 
 
 
-//CADASTRANDO DADOS NA API
+//CREATE GAME END-POINT
 app.post('/game', (req, res) =>{
-    var { title, year, price } = req.body; // Usando destructuring
+    var { title, year, price } = req.body; //Usando destructuring
 
     // Validação do título
     if (typeof title !== 'string' || title.trim() === '') { 
@@ -127,6 +127,37 @@ app.delete('/game/:id', (req, res) =>{
 
     }  
 })
+
+
+
+//UPDATE GAME END-POINT
+app.put('/game/:id', (req, res) =>{
+    var idVar = parseInt(req.params.id);
+
+    var game = DB.games.find((g) =>{
+        return g.id === idVar;
+    })
+
+    if(game != undefined){
+        var {title, year, price} = req.body; //Usando destructuring
+       
+        if(title != undefined){
+            game.title = title;
+        }
+        if(year != undefined){
+            game.year = year;
+        }
+        if(price != undefined){
+            game.price = price;
+        }
+
+        res.status(200).send('Game updated');
+    }else{
+        return res.status(404).send('The game is undefined');
+    }
+
+})
+
 
 
 
