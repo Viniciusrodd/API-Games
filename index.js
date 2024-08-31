@@ -32,32 +32,62 @@ connection.authenticate()
 var DB = {
     games:[
         {
-            id: 23,
-            title: 'Call of Duty MW',
-            year: 2019,
-            price: 60
-        },
-        {
-            id: 65,
-            title: 'Sea of Thieves',
-            year: 2018,
-            price: 40
-        },
-        {
-            id: 2,
-            title: 'Minecraft',
-            year: 2012,
-            price: 20
+            title:'Call of Duty MW3',
+            year: 2011,
+            price: 39
         }
     ]
 }
 
 
 
-//FIRST ROUTE OR 'END-POINT'
+//'END-POINT' TO DISPLAY GAMES
 app.get('/games', (req, res) =>{
     res.status(200);
     res.json(DB.games);
+})
+
+
+
+//CREATE GAME END-POINT
+app.post('/game', (req, res) =>{
+    var { titleVar, yearVar, priceVar } = req.body; //Usando destructuring
+
+    // Validação do título
+    if (typeof titleVar !== 'string' || titleVar.trim() === '') { 
+        //.trim() para não deixar espaço no começo e final de string, tipo: ' aaa '
+        //typeof para comparar o tipo da variavel
+        return res.status(400).send({ error: "Invalid title" });
+    }
+
+    // Validação do ano
+    if (typeof yearVar !== 'number' || isNaN(yearVar)) {
+        return res.status(400).send({ error: "Invalid year" });
+    }
+
+    // Validação do preço
+    if (typeof priceVar !== 'number' || isNaN(priceVar)) {
+        return res.status(400).send({ error: "Invalid price" });
+    }
+
+    gamesModel.create({
+        title: titleVar,
+        year: yearVar,
+        price: priceVar
+    })
+    .then(() =>{
+        return res.status(201).send('New data created');
+    })
+    .catch((error) =>{
+        return res.status(500).send('Error in created new data');
+    })
+
+    DB.games.push({
+        title: titleVar,
+        year: yearVar,
+        price: priceVar
+    });
+
 })
 
 
@@ -81,40 +111,6 @@ app.get('/game/:id', (req, res) =>{
             res.sendStatus(404);
         }
     }
-})
-
-
-
-//CREATE GAME END-POINT
-app.post('/game', (req, res) =>{
-    var { title, year, price } = req.body; //Usando destructuring
-
-    // Validação do título
-    if (typeof title !== 'string' || title.trim() === '') { 
-        //.trim() para não deixar espaço no começo e final de string, tipo: ' aaa '
-        //typeof para comparar o tipo da variavel
-        return res.status(400).send({ error: "Invalid title" });
-    }
-
-    // Validação do ano
-    if (typeof year !== 'number' || isNaN(year)) {
-        return res.status(400).send({ error: "Invalid year" });
-    }
-
-    // Validação do preço
-    if (typeof price !== 'number' || isNaN(price)) {
-        return res.status(400).send({ error: "Invalid price" });
-    }
-
-    // Se todas as validações passarem, continue com a lógica de cadastro
-    DB.games.push({
-        id: 2424,
-        title,
-        year,
-        price
-    });
-
-    res.status(201).send({ message: "Game successfully created" });
 })
 
 
