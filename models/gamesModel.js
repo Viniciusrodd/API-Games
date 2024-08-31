@@ -1,19 +1,19 @@
 
-const sequelize = require('sequelize');
-const connection = require('../database/database');
+const Sequelize = require('sequelize');
+const connection = require('../database/connectionDB');
 
 const Games = connection.define('games',{
     title: {
-        type: sequelize.STRING,
-        allownull: false
+        type: Sequelize.STRING,
+        allowNull: false
     },
     year: {
-        type: sequelize.NUMBER,
-        allownull: false
+        type: Sequelize.INTEGER,
+        allowNull: false
     },
     price: {
-        type: sequelize.NUMBER,
-        allownull: false
+        type: Sequelize.FLOAT,
+        allowNull: false
     }
 })
 

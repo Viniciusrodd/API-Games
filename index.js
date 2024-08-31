@@ -6,10 +6,25 @@ const bodyParser = require('body-parser');
 const sequelize = require('sequelize');
 
 
+//IMPORTING MY CONNECTION AND TABLES
+const connection = require('./database/connectionDB');
+const gamesModel = require('./models/gamesModel');
+
 
 //BODY-PARSER
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
+
+
+//AUTHENTICATE DATABASE CONNECTION
+connection.authenticate()
+    .then(() =>{
+        console.log('Database is connected');
+    })
+    .catch((error) =>{
+        console.log('Database failed in connected');        
+    })
 
 
 
