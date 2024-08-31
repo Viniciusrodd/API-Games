@@ -97,18 +97,17 @@ app.get('/game/:id', (req, res) =>{
     if(isNaN(req.params.id)){ //inNaN para verificar se é um número
         res.sendStatus(400);
     }else{
-        var id = parseInt(req.params.id); //Id sendo um texto, uso parseInt pra converter
+        var idVar = parseInt(req.params.id); //Id sendo um texto, uso parseInt pra converter
 
-        var game = DB.games.find((g) => {
-            return g.id == id
+        gamesModel.findByPk(idVar)
+        .then((gameData) =>{
+            if(gameData != undefined){
+                res.json(gameData);
+            }
+            else{
+                res.status(400).send('Bad request');
+            }
         })
-
-        if(game != undefined){
-            res.status(200);
-            res.json(game);
-        }else{
-            res.sendStatus(404);
-        }
     }
 })
 
