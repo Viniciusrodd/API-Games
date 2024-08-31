@@ -48,7 +48,7 @@ app.get('/games', (req, res) =>{
 
 
 
-//CREATE GAME END-POINT
+//END-POINT TO CREATE A GAME
 app.post('/game', (req, res) =>{
     var { titleVar, yearVar, priceVar } = req.body; //Usando destructuring
 
@@ -91,7 +91,7 @@ app.post('/game', (req, res) =>{
 
 
 
-//ROUTE/END-POINT FOR GET 'ID' OF THE GAME
+//END-POINT FOR GET A GAME BY ID
 app.get('/game/:id', (req, res) =>{
 
     if(isNaN(req.params.id)){ //inNaN para verificar se é um número
@@ -114,25 +114,28 @@ app.get('/game/:id', (req, res) =>{
 
 
 //DELETE GAMES END-POINT
-//By 'delete HTTP route'
 app.delete('/game/:id', (req, res) =>{
     if(isNaN(req.params.id)){ //inNaN para verificar se é um número
         return res.status(404).send('You need to put a Number in URL');
     }else{
         var idVar = parseInt(req.params.id);
-        var index = DB.games.findIndex((g) =>{
-            return g.id === idVar;
-        })
-
-        if(index === -1){ //Verifica se o ID existe
-            return res.status(404).send('This game ID does not exist');            
-        }
         
         if(idVar <= 0){
             return res.status(404).send('You need to put a number bigger than zero');
         }else{
-            DB.games.splice(index, 1);
-            return res.status(200).send(`The game with ID: ${idVar} has been deleted`)
+            gamesModel.destroy({
+                where: {
+                    id: idVar
+                }
+            })
+            .then(() =>{
+                var index = DB.games.findIndex((g) =>{
+                    return g.id === idVar;
+                })
+                
+                DB.games.splice(index, 1);
+                return res.status(200).send(`The game with ID: ${idVar} has been deleted`)    
+            })
         }
 
     }  
