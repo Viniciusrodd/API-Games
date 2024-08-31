@@ -32,19 +32,18 @@ connection.authenticate()
 var DB = {
     games:[
         {
-            title:'Call of Duty MW3',
-            year: 2011,
-            price: 39
+            
         }
     ]
-}
-
+}        
 
 
 //'END-POINT' TO DISPLAY GAMES
 app.get('/games', (req, res) =>{
-    res.status(200);
-    res.json(DB.games);
+    gamesModel.findAll()
+    .then((gamesDatas) =>{
+        res.status(200).json(gamesDatas);
+    })
 })
 
 
