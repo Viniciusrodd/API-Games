@@ -25,17 +25,7 @@ connection.authenticate()
     .catch((error) =>{
         console.log('Database failed in connected');        
     })
-
-
-
-//FALSE DATA BASE WITH JSON
-var DB = {
-    games:[
-        {
-            
-        }
-    ]
-}        
+    
 
 
 //'END-POINT' TO DISPLAY GAMES
@@ -81,12 +71,6 @@ app.post('/game', (req, res) =>{
         return res.status(500).send('Error in created new data');
     })
 
-    DB.games.push({
-        title: titleVar,
-        year: yearVar,
-        price: priceVar
-    });
-
 })
 
 
@@ -129,11 +113,6 @@ app.delete('/game/:id', (req, res) =>{
                 }
             })
             .then(() =>{
-                var index = DB.games.findIndex((g) =>{
-                    return g.id === idVar;
-                })
-                
-                DB.games.splice(index, 1);
                 return res.status(200).send(`The game with ID: ${idVar} has been deleted`)    
             })
         }
@@ -146,31 +125,30 @@ app.delete('/game/:id', (req, res) =>{
 //UPDATE GAME END-POINT
 app.put('/game/:id', (req, res) =>{
     var idVar = parseInt(req.params.id);
+    var {titleVar, yearVar, priceVar} = req.body;
 
-    var game = DB.games.find((g) =>{
-        return g.id === idVar;
-    })
+    if(titleVar != undefined && yearVar != undefined && priceVar != undefined){
+        gamesModel.update({
+            title: titleVar,
+            year: yearVar,
+            price: priceVar
+        }, {
+            where: {
+                id: idVar
+            }
+        })
+        .then(() =>{
+            return res.status(200).send('Game updated successfully');
+        })
+        .catch((error) =>{
+            return res.status(400).send('Bad ID request');
+        })    
 
-    if(game != undefined){
-        var {title, year, price} = req.body; //Usando destructuring
-       
-        if(title != undefined){
-            game.title = title;
-        }
-        if(year != undefined){
-            game.year = year;
-        }
-        if(price != undefined){
-            game.price = price;
-        }
-
-        res.status(200).send('Game updated');
+        
     }else{
-        return res.status(404).send('The game is undefined');
-    }
-
-})
-
+        return res.status(400).send('Bad request, the fields are empty'); 
+    }   
+})       
 
 
 
