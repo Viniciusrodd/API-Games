@@ -4,7 +4,12 @@ const express = require('express');
 const app = express();;
 const bodyParser = require('body-parser');
 const sequelize = require('sequelize');
-const axios = require('axios');
+const axios = require('axios'); //biblioteca js para consumir APIs
+const cors = require('cors'); //politica de segurança necessária para consumo de APIs
+
+
+//Using CORS for consuming a API
+app.use(cors());
 
 
 //IMPORTING MY CONNECTION AND TABLES
