@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();;
 const bodyParser = require('body-parser');
 const sequelize = require('sequelize');
+const axios = require('axios');
 
 
 //IMPORTING MY CONNECTION AND TABLES

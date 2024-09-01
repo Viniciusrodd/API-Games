@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja de Games</title>
+</head>
+<body>
+    
+<h1>Loja de Games</h1>
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+<script>
+
+axios.get('http://localhost:4545/games')
+    .then((response) =>{
+        console.log(response);
+    })
+    .catch((error) =>{
+        console.log(error);
+    })
+
+</script>
+</html>
