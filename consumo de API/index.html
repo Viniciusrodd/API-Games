@@ -25,15 +25,43 @@
 <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
 <script>
 
+//GET END-POINT VIEW GAMES
 axios.get('http://localhost:4545/games')
     .then((response) =>{
         var gamesData = response.data
         var listGames = document.getElementById('list-games');
 
         gamesData.forEach((games) =>{
+            //NEW ITEM
             var newItem = document.createElement('li');
+            //Criando atributos customizáveis com setattribute()
+            newItem.setAttribute('data-id', games.id);
+            newItem.setAttribute('data-title', games.title);
+            newItem.setAttribute('data-year', games.year);
+            newItem.setAttribute('data-price', games.price)
+
             newItem.textContent = `${games.id}. ${games.title} - $${games.price}`
             listGames.appendChild(newItem);
+
+            //DELETE BUTTON
+            var deleteBtt = document.createElement('button');
+            deleteBtt.innerHTML = 'Deletar';
+            newItem.appendChild(deleteBtt);
+
+            deleteBtt.addEventListener('click', () =>{
+                var gameID = parseInt(newItem.getAttribute('data-id'))
+                console.log(gameID);
+                axios.delete(`http://localhost:4545/game/${gameID}`)
+                    .then((res) =>{
+                        if(res.status === 200){
+                            window.alert('Game excluido');
+                            window.location.reload();
+                        }
+                    })
+                    .catch((error) =>{
+                        console.log(error);
+                    })
+            })
         })
 
     })
@@ -41,6 +69,9 @@ axios.get('http://localhost:4545/games')
         console.log(error);
     })
 
+
+
+//POST END-POINT CREATE A GAMES
     function criarGame(){
         var title = document.getElementById('ititulo').value;
         var year = parseInt(document.getElementById('iano').value);
