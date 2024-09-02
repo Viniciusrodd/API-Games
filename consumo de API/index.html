@@ -9,18 +9,32 @@
     
 <h1>Loja de Games</h1>
 <br>
+
 <h2>Lista de games/preços:</h2>
+
 <ul id="list-games">
 
 </ul>
 <hr>
+
 <h2>Novo Game:</h2>
 <input type="text" name="titulo" id="ititulo" placeholder="Titulo"> <br>
 <input type="number" name="ano" id="iano" placeholder="Ano"> <br>
 <input type="number" name="price" id="iprice" placeholder="Price"> <br>
 <button onclick="criarGame()">Criar</button>
 
+
+<h2>Editar Game:</h2>
+<input type="text" name="idEdit" id="idEdit" placeholder="id" readonly> <br>
+<input type="text" name="tituloEdit" id="itituloEdit" placeholder="Titulo"> <br>
+<input type="number" name="anoEdit" id="ianoEdit" placeholder="Ano"> <br>
+<input type="number" name="priceEdit" id="ipriceEdit" placeholder="Price"> <br>
+<button>Editar</button>
+
+
 </body>
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
 <script>
@@ -40,10 +54,12 @@ axios.get('http://localhost:4545/games')
             newItem.setAttribute('data-year', games.year);
             newItem.setAttribute('data-price', games.price)
 
-            newItem.textContent = `${games.id}. ${games.title} - $${games.price}`
+            newItem.textContent = `${games.id}. ${games.title} - $${games.price}    `
             listGames.appendChild(newItem);
 
-            //DELETE BUTTON
+
+
+            //DELETE LÓGIC + BUTTON
             var deleteBtt = document.createElement('button');
             deleteBtt.innerHTML = 'Deletar';
             newItem.appendChild(deleteBtt);
@@ -61,6 +77,25 @@ axios.get('http://localhost:4545/games')
                     .catch((error) =>{
                         console.log(error);
                     })
+            })
+
+
+
+            //EDIT BUTTON
+            var editBtt = document.createElement('button');
+            editBtt.innerHTML = 'Editar';
+            newItem.appendChild(editBtt);
+
+            editBtt.addEventListener('click', () =>{
+                var idEdit = newItem.getAttribute('data-id')
+                var titleEdit = newItem.getAttribute('data-title')
+                var yearEdit = newItem.getAttribute('data-year')
+                var priceEdit = newItem.getAttribute('data-price')
+
+                document.getElementById('idEdit').value = idEdit;
+                document.getElementById('itituloEdit').value = titleEdit;
+                document.getElementById('ianoEdit').value = yearEdit;
+                document.getElementById('ipriceEdit').value = priceEdit;
             })
         })
 
