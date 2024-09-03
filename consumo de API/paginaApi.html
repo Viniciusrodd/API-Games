@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loja de Games</title>
+    <link rel="stylesheet" href="./paginaApi-style.css">
 </head>
 <body>
     
@@ -29,7 +30,7 @@
 <input type="text" name="tituloEdit" id="itituloEdit" placeholder="Titulo"> <br>
 <input type="number" name="anoEdit" id="ianoEdit" placeholder="Ano"> <br>
 <input type="number" name="priceEdit" id="ipriceEdit" placeholder="Price"> <br>
-<button>Editar</button>
+<button onclick="editGames()">Atualizar</button>
 
 
 </body>
@@ -106,11 +107,12 @@ axios.get('http://localhost:4545/games')
 
 
 
-//POST END-POINT CREATE A GAMES
-    function criarGame(){
-        var title = document.getElementById('ititulo').value;
-        var year = parseInt(document.getElementById('iano').value);
-        var price = parseFloat(document.getElementById('iprice').value);
+//PUT END-POINT TO EDIT A GAMES
+function editGames(){
+        var id = document.getElementById('idEdit').value
+        var title = document.getElementById('itituloEdit').value;
+        var year = parseInt(document.getElementById('ianoEdit').value);
+        var price = parseFloat(document.getElementById('ipriceEdit').value);
 
         var newGame = {
             titleVar: title,
@@ -118,17 +120,43 @@ axios.get('http://localhost:4545/games')
             priceVar: price
         };
 
-        axios.post('http://localhost:4545/game', newGame)
+        axios.put(`http://localhost:4545/game/${id}`, newGame)
             .then((response) =>{
-                if(response.status === 201){
-                    alert('Game cadastrado');
+                if(response.status === 200){
+                    alert('Game atualizado');
                     window.location.reload();
                 }
             })
             .catch((error) =>{
                 console.log(error)
             })
-    }
+}
+
+
+
+//POST END-POINT CREATE A GAMES
+function criarGame(){
+    var title = document.getElementById('ititulo').value;
+    var year = parseInt(document.getElementById('iano').value);
+    var price = parseFloat(document.getElementById('iprice').value);
+
+    var newGame = {
+        titleVar: title,
+        yearVar: year,
+        priceVar: price
+    };
+
+    axios.post('http://localhost:4545/game', newGame)
+        .then((response) =>{
+            if(response.status === 201){
+                alert('Game cadastrado');
+                window.location.reload();
+            }
+        })
+        .catch((error) =>{
+            console.log(error)
+        })
+}
 
 
 </script>
