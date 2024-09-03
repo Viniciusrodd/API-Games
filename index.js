@@ -8,6 +8,10 @@ const axios = require('axios'); //biblioteca js para consumir APIs
 const cors = require('cors'); //politica de segurança necessária para consumo de APIs
 
 
+//SETTING A EJS VIEW-ENGINE
+app.set('view engine', 'ejs');
+
+
 //Using CORS for consuming a API
 app.use(cors());
 
@@ -15,6 +19,7 @@ app.use(cors());
 //IMPORTING MY CONNECTION AND TABLES
 const connection = require('./database/connectionDB');
 const gamesModel = require('./models/gamesModel');
+const usersModel = require('./models/usersModel');
 
 
 //BODY-PARSER
@@ -31,7 +36,20 @@ connection.authenticate()
     .catch((error) =>{
         console.log('Database failed in connected');        
     })
+
     
+//END-POINT TO RENDER A 'paginaApi'
+app.get('/paginaApi', (req, res) =>{
+    res.render('paginaApi')
+})
+
+
+
+//END-POINT TO RENDER A 'pagianCadastro'
+app.get('/paginaCadastro', (req, res) =>{
+    res.render('paginaCadastro')
+})
+
 
 
 //'END-POINT' TO DISPLAY GAMES
@@ -154,8 +172,50 @@ app.put('/game/:id', (req, res) =>{
     }else{
         return res.status(400).send('Bad request, the fields are empty'); 
     }   
-})       
+})
 
+
+
+//END-POINT FOR REGISTER USER CREATE
+app.post('/user', (req, res) =>{
+    var nameVar = req.body.name;
+    var emailVar = req.body.email;
+    var passwordVar = req.body.password;
+
+    usersModel.create({
+        name: nameVar,
+        email: emailVar,
+        password: passwordVar
+    })
+    .then(() =>{
+        res.redirect('/paginaCadastro')
+    })
+    .catch((error) =>{
+        return res.status(404).send('Not found');
+    })
+})
+
+
+
+/*
+//END-POINT TO AUTHENTICATE A USER FOR ACESS API
+app.post('auth', (req, res) =>{
+    var {emailVar, passwordVar} = req.body;
+
+    usersModel.findOne({
+        where: {
+            email: emailVar
+        }
+    })
+    .then((authData) =>{
+        if(authData != undefined){
+
+        }else{
+            return res.status(400).send('Bad request');
+        }
+    })
+})
+*/
 
 
 //OPENING SERVER
