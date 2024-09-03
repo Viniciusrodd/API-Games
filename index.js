@@ -166,9 +166,7 @@ app.put('/game/:id', (req, res) =>{
         })
         .catch((error) =>{
             return res.status(400).send('Bad ID request');
-        })    
-
-        
+        })     
     }else{
         return res.status(400).send('Bad request, the fields are empty'); 
     }   
@@ -197,10 +195,10 @@ app.post('/user', (req, res) =>{
 
 
 
-/*
 //END-POINT TO AUTHENTICATE A USER FOR ACESS API
-app.post('auth', (req, res) =>{
-    var {emailVar, passwordVar} = req.body;
+app.post('/auth', (req, res) =>{
+    var emailVar = req.body.email;
+    var passwordVar = req.body.password;
 
     usersModel.findOne({
         where: {
@@ -208,14 +206,16 @@ app.post('auth', (req, res) =>{
         }
     })
     .then((authData) =>{
-        if(authData != undefined){
-
+        if(authData.password == passwordVar){
+            return res.status(200).send({token: 'deu certo, mas ainda sem token'})
         }else{
-            return res.status(400).send('Bad request');
+            return res.status(401).send('Não autorizado, credenciais(senha) erradas')
         }
     })
+    .catch((error) =>{
+        return res.status(401).send('Não autorizado, credenciais(email) erradas')
+    })
 })
-*/
 
 
 //OPENING SERVER
