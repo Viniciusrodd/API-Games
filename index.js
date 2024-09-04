@@ -7,6 +7,9 @@ const sequelize = require('sequelize');
 const axios = require('axios'); //biblioteca js para consumir APIs
 const cors = require('cors'); //politica de segurança necessária para consumo de APIs
 const jwt = require('jsonwebtoken'); //autenticação pra users de APIs
+const authMiddleware = require('./middlewares/auth');
+
+
 
 //CREATING A SECRET KEY FOR JWT
 const JWTsecret = '123455432112345'
@@ -56,7 +59,7 @@ app.get('/paginaCadastro', (req, res) =>{
 
 
 //'END-POINT' TO DISPLAY GAMES
-app.get('/games', (req, res) =>{
+app.get('/games', authMiddleware, (req, res) =>{
     gamesModel.findAll()
     .then((gamesDatas) =>{
         res.status(200).json(gamesDatas);
