@@ -6,7 +6,10 @@ const bodyParser = require('body-parser');
 const sequelize = require('sequelize');
 const axios = require('axios'); //biblioteca js para consumir APIs
 const cors = require('cors'); //politica de segurança necessária para consumo de APIs
+const jwt = require('jsonwebtoken'); //autenticação pra users de APIs
 
+//CREATING A SECRET KEY FOR JWT
+const JWTsecret = '123455432112345'
 
 //SETTING A EJS VIEW-ENGINE
 app.set('view engine', 'ejs');
@@ -207,13 +210,23 @@ app.post('/auth', (req, res) =>{
     })
     .then((authData) =>{
         if(authData.password == passwordVar){
-            return res.status(200).send({token: 'deu certo, mas ainda sem token'})
+
+            //PAYLOAD (informações passadas para dentro do token):
+            jwt.sign({id: authData.id, email: authData.email}, JWTsecret, {expiresIn:'48h'}, (erro, token) =>{
+                if(erro){
+                    return res.status(400).send('Bad request, authentication failed');
+                }else{
+                    return res.status(200).json({
+                        token: token
+                    });
+                }
+            })
         }else{
-            return res.status(401).send('Não autorizado, credenciais(senha) erradas')
+            return res.status(401).send('Não autorizado, credenciais(senha) erradas');
         }
     })
     .catch((error) =>{
-        return res.status(401).send('Não autorizado, credenciais(email) erradas')
+        return res.status(401).send('Não autorizado, credenciais(email) erradas');
     })
 })
 
