@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loja de Games</title>
-    <link rel="stylesheet" href="./paginaApi-style.css">
 </head>
 <body>
     
@@ -40,8 +39,16 @@
 <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
 <script>
 
+
+var axiosConfig = {
+    headers: {
+        authorization: "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ2aW5pY2l1c3VzZXIyMkBnbWFpbC5jb20iLCJpYXQiOjE3MjU1NDQ5ODIsImV4cCI6MTcyNTcxNzc4Mn0.9ls-YZ5dQbb2dspBEy_vEkIFc10HH8uDPyn44F2-ayI"
+    }
+}
+
+
 //GET END-POINT VIEW GAMES
-axios.get('http://localhost:4545/games')
+axios.get('http://localhost:4545/games', axiosConfig)
     .then((response) =>{
         var gamesData = response.data
         var listGames = document.getElementById('list-games');
