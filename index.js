@@ -51,6 +51,13 @@ app.get('/paginaApi', (req, res) =>{
 
 
 
+//END-POINT TO LOGIN PAGE
+app.get('/paginaAutenticacao', (req, res) =>{
+    res.render('paginaAutenticacao');
+})
+
+
+
 //END-POINT TO RENDER A 'pagianCadastro'
 app.get('/paginaCadastro', (req, res) =>{
     res.render('paginaCadastro')
