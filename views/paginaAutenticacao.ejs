@@ -8,15 +8,37 @@
 <body>
     <h1>Página de Autenticação</h1>
 
-    <form action="/auth" method="post">
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="iemail">
-    
-        <label for="password">Senha:</label>
-        <input type="password" name="password" id="isenha">
-    
-        <button>Autenticar</button>
-    </form>
+    <label for="email">Email:</label>
+    <input type="email" name="email" id="iemail">
+
+    <label for="password">Senha:</label>
+    <input type="password" name="password" id="isenha">
+
+    <button onclick="login()">Autenticar</button>
 
 </body>
+
+<script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+<script>
+
+    function login(){
+        var email = document.getElementById('iemail').value;
+        var password = document.getElementById('isenha').value;
+
+        axios.post('http://localhost:4545/auth', {
+            email,
+            password
+        })
+        .then((response) =>{
+            var token = response.data.token;
+            alert(`Authenticate successfully! This is your Token: ${token}`);
+        })
+        .catch((error) =>{
+            console.log(error);
+            alert('Bad request')
+        })
+    }
+
+</script>
+
 </html>
