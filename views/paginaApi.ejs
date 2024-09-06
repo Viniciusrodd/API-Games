@@ -29,7 +29,7 @@
         
         
         <h2>Editar Game:</h2>
-        <div class="div-input">
+        <div class="div-input" id="div-input-id">
             <input type="text" name="idEdit" id="idEdit" placeholder="id" readonly>
             <input type="text" name="tituloEdit" id="itituloEdit" placeholder="Titulo">
             <input type="number" name="anoEdit" id="ianoEdit" placeholder="Ano">
@@ -82,18 +82,22 @@ axios.get('http://localhost:4545/games', axiosConfig)
             newItem.appendChild(deleteBtt);
 
             deleteBtt.addEventListener('click', () =>{
-                var gameID = parseInt(newItem.getAttribute('data-id'))
-                console.log(gameID);
-                axios.delete(`http://localhost:4545/game/${gameID}`)
-                    .then((res) =>{
-                        if(res.status === 200){
-                            window.alert('Game excluido');
-                            window.location.reload();
-                        }
-                    })
-                    .catch((error) =>{
-                        console.log(error);
-                    })
+                if(confirm('Tem certeza que deseja EXCLUIR esses dados ?')){
+                    var gameID = parseInt(newItem.getAttribute('data-id'))
+                    console.log(gameID);
+                    axios.delete(`http://localhost:4545/game/${gameID}`)
+                        .then((res) =>{
+                            if(res.status === 200){
+                                window.alert('Game excluido');
+                                window.location.reload();
+                            }
+                        })
+                        .catch((error) =>{
+                            console.log(error);
+                        })
+                }else{
+                    window.location.reload();
+                }
             })
 
 
@@ -109,6 +113,12 @@ axios.get('http://localhost:4545/games', axiosConfig)
                 var titleEdit = newItem.getAttribute('data-title')
                 var yearEdit = newItem.getAttribute('data-year')
                 var priceEdit = newItem.getAttribute('data-price')
+                var divInput = document.getElementById('div-input-id')
+
+                divInput.scrollIntoView({
+                    behavior: "smooth"
+                })
+
 
                 document.getElementById('idEdit').value = idEdit;
                 document.getElementById('itituloEdit').value = titleEdit;
