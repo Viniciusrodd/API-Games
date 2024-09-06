@@ -50,7 +50,7 @@
 
 var axiosConfig = {
     headers: {
-        authorization: "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ2aW5pY2l1c3VzZXIyMkBnbWFpbC5jb20iLCJpYXQiOjE3MjU1NDQ5ODIsImV4cCI6MTcyNTcxNzc4Mn0.9ls-YZ5dQbb2dspBEy_vEkIFc10HH8uDPyn44F2-ayI"
+        authorization: "Bearer " + localStorage.getItem('Token')
     }
 }
 
@@ -85,7 +85,7 @@ axios.get('http://localhost:4545/games', axiosConfig)
                 if(confirm('Tem certeza que deseja EXCLUIR esses dados ?')){
                     var gameID = parseInt(newItem.getAttribute('data-id'))
                     console.log(gameID);
-                    axios.delete(`http://localhost:4545/game/${gameID}`)
+                    axios.delete(`http://localhost:4545/game/${gameID}`, axiosConfig)
                         .then((res) =>{
                             if(res.status === 200){
                                 window.alert('Game excluido');
@@ -147,7 +147,7 @@ function editGames(){
             priceVar: price
         };
 
-        axios.put(`http://localhost:4545/game/${id}`, newGame)
+        axios.put(`http://localhost:4545/game/${id}`, newGame, axiosConfig)
             .then((response) =>{
                 if(response.status === 200){
                     alert('Game atualizado');
@@ -173,7 +173,7 @@ function criarGame(){
         priceVar: price
     };
 
-    axios.post('http://localhost:4545/game', newGame)
+    axios.post('http://localhost:4545/game', newGame, axiosConfig)
         .then((response) =>{
             if(response.status === 201){
                 alert('Game cadastrado');

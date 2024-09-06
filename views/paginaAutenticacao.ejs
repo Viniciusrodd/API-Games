@@ -31,7 +31,8 @@
         })
         .then((response) =>{
             var token = response.data.token;
-            alert(`Authenticate successfully! This is your Token: ${token}`);
+            localStorage.setItem('Token', token);
+            alert(`Authenticate successfully!`);
         })
         .catch((error) =>{
             console.log(error);
