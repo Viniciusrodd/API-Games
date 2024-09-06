@@ -14,6 +14,11 @@ const authMiddleware = require('./middlewares/auth');
 //CREATING A SECRET KEY FOR JWT
 const JWTsecret = '123455432112345'
 
+
+//SETTING A PUBLIC FILE AS A EXPRESS STATIC
+app.use(express.static('public'));
+
+
 //SETTING A EJS VIEW-ENGINE
 app.set('view engine', 'ejs');
 
