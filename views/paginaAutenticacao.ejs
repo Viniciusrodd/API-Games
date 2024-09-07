@@ -4,18 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Autenticação</title>
+    <link rel="stylesheet" href="/paginaAutenticacao.css">
 </head>
 <body>
-    <h1>Página de Autenticação</h1>
-
-    <label for="email">Email:</label>
-    <input type="email" name="email" id="iemail">
-
-    <label for="password">Senha:</label>
-    <input type="password" name="password" id="isenha">
-
-    <button onclick="login()">Autenticar</button>
-
+    <div id="div-pai">
+        <div id="div-filho">
+            <h1>Página de Autenticação</h1>
+            <div class="div-input">
+                <input type="email" name="email" id="iemail" placeholder="Your email...">
+                <input type="password" name="password" id="isenha" placeholder="Your password...">
+            
+                <button onclick="login()" class="btt-input">Autenticar</button>
+            </div>
+        </div>
+    </div>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
