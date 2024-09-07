@@ -21,16 +21,16 @@
         
         <h2>Novo Game:</h2>
         <div class="div-input">
-            <input type="text" name="titulo" id="ititulo" placeholder="Titulo">
-            <input type="number" name="ano" id="iano" placeholder="Ano">
-            <input type="number" name="price" id="iprice" placeholder="Price">
+            <input type="text" name="titulo" id="ititulo" placeholder="Titulo" required>
+            <input type="number" name="ano" id="iano" placeholder="Ano" required>
+            <input type="number" name="price" id="iprice" placeholder="Price" required>
             <button onclick="criarGame()" class="btt-input">Criar</button>
         </div>
         
         
         <h2>Editar Game:</h2>
         <div class="div-input" id="div-input-id">
-            <input type="text" name="idEdit" id="idEdit" placeholder="id" readonly>
+            <input type="text" name="idEdit" id="idEdit" placeholder="id">
             <input type="text" name="tituloEdit" id="itituloEdit" placeholder="Titulo">
             <input type="number" name="anoEdit" id="ianoEdit" placeholder="Ano">
             <input type="number" name="priceEdit" id="ipriceEdit" placeholder="Price">
