@@ -35,6 +35,7 @@
             var token = response.data.token;
             localStorage.setItem('Token', token);
             alert(`Authenticate successfully!`);
+            window.location.href = '/paginaApi';
         })
         .catch((error) =>{
             console.log(error);

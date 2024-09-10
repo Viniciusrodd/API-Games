@@ -74,7 +74,41 @@ app.get('/paginaCadastro', (req, res) =>{
 app.get('/games', authMiddleware, (req, res) =>{
     gamesModel.findAll()
     .then((gamesDatas) =>{
-        res.status(200).json(gamesDatas);
+
+        let gamesWithHATEOAS = gamesDatas.map((game) =>{
+            return {
+                ...game.dataValues,
+                _links: [
+                    {
+                        href: 'http://localhost:4545/game/id',
+                        method: 'DELETE',
+                        rel: 'delete_game'
+                    },
+                    {
+                        href: 'http://localhost:4545/games',
+                        method: 'GET',
+                        rel: 'get_game'
+                    },
+                    {
+                        href: 'http://localhost:4545/game/id',
+                        method: 'PUT',
+                        rel: 'put_game'
+                    },
+                    {
+                        href: 'http://localhost:4545/game',
+                        method: 'POST',
+                        rel: 'post_game'
+                    }        
+                ]
+            }
+        })
+        /*
+            .map pegando cada dado de game do meu para me
+            retornar apenas o dataValue daqueles dados + meu array de objetos _links
+         */
+        res.status(200).json(
+            gamesWithHATEOAS
+        );
     })
 })
 

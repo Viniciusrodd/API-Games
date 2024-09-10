@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loja de Games</title>
-    <link rel="stylesheet" href="/paginaApiStyle.css">
+    <link rel="stylesheet" href="/paginaApi.css">
 </head>
 <body>
     
@@ -60,8 +60,10 @@ axios.get('http://localhost:4545/games', axiosConfig)
     .then((response) =>{
         var gamesData = response.data
         var listGames = document.getElementById('list-games');
+        alert('HATEOAS dos games está exibido no console')
 
         gamesData.forEach((games) =>{
+            console.log('HATEOAS dos games:', JSON.stringify(games._links, null, 2));
             //NEW ITEM
             var newItem = document.createElement('li');
             //Criando atributos customizáveis com setattribute()
