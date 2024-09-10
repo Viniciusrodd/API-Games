@@ -159,10 +159,33 @@ app.get('/game/:id', (req, res) =>{
     }else{
         var idVar = parseInt(req.params.id); //Id sendo um texto, uso parseInt pra converter
 
+        var _links = [
+            {
+                href: `http://localhost:4545/game/${idVar}`,
+                method: 'DELETE',
+                rel: 'delete_game'
+            },
+            {
+                href: `http://localhost:4545/games/${idVar}`,
+                method: 'GET',
+                rel: 'get_game'
+            },
+            {
+                href: `http://localhost:4545/game/${idVar}`,
+                method: 'PUT',
+                rel: 'put_game'
+            },
+            {
+                href: `http://localhost:4545/game/${idVar}`,
+                method: 'POST',
+                rel: 'post_game'
+            }        
+        ]
+
         gamesModel.findByPk(idVar)
         .then((gameData) =>{
             if(gameData != undefined){
-                res.json(gameData);
+                res.json({gameData, _links});
             }
             else{
                 res.status(400).send('Bad request');

@@ -63,7 +63,7 @@ axios.get('http://localhost:4545/games', axiosConfig)
         alert('HATEOAS dos games está exibido no console')
 
         gamesData.forEach((games) =>{
-            console.log('HATEOAS dos games:', JSON.stringify(games._links, null, 2));
+            console.log('HATEOAS dos games: ', JSON.stringify(games._links, null, 2));
             //NEW ITEM
             var newItem = document.createElement('li');
             //Criando atributos customizáveis com setattribute()
