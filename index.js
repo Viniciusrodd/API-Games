@@ -77,7 +77,7 @@ app.get('/games', authMiddleware, (req, res) =>{
 
         let gamesWithHATEOAS = gamesDatas.map((game) =>{
             return {
-                ...game.dataValues,
+                ...game.dataValues, //...Operador Spread
                 _links: [
                     {
                         href: 'http://localhost:4545/game/id',
@@ -261,7 +261,7 @@ app.post('/user', (req, res) =>{
         password: passwordVar
     })
     .then(() =>{
-        res.redirect('/paginaCadastro')
+        res.redirect('/paginaAutenticacao')
     })
     .catch((error) =>{
         return res.status(404).send('Not found');
